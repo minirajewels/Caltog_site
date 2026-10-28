@@ -28,3 +28,9 @@ All 438 original images are included in `images/products/` and matched to the li
 Run `node pricing.test.js` for catalogue and business-rule regression checks. Run `node --check app.js` and `node --check pricing.js` for syntax checks.
 
 This repository holds source code. Adding code does not deploy a public website.
+
+## Optimized website images
+
+The storefront uses separate 400px and 640px WebP copies for all 438 products, selected through responsive srcset/sizes. Original files and product filenames remain unchanged. The logo also has a smaller website copy. Generated files include content hashes and are cached for one year; regenerated artwork receives a different URL. HTML, inventory and scripts retain normal revalidation.
+
+To regenerate, install Pillow in your development environment and run `python3 scripts/optimize-images.py`. It preserves image proportions, transparency and embedded ICC profiles. Outputs: images/optimized/, image-assets.js and optimized-images.json. Update the logo path in index.html if its content changes.

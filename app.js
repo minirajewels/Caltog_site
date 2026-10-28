@@ -43,8 +43,16 @@ function render() {
   for (const p of list.slice(0, visible)) {
     const card = element('article', 'card'), frame = element('div', 'img');
     const img = element('img'); img.alt = p.name || p.code;
-    img.loading = 'lazy'; img.decoding = 'async'; img.width = 600; img.height = 600;
-    img.src = 'images/products/' + encodeURIComponent(p.image);
+    img.loading = grid.childElementCount < 2 ? 'eager' : 'lazy';
+    img.decoding = 'async'; img.width = 600; img.height = 600;
+    const asset = window.MiniraImages?.[p.image];
+    if (asset) {
+      img.sizes = '(min-width: 1100px) 263px, (min-width: 700px) calc(25vw - 18px), calc(50vw - 18px)';
+      img.srcset = asset.srcset;
+      img.src = asset.src;
+    } else {
+      img.src = 'images/products/' + encodeURIComponent(p.image);
+    }
     img.addEventListener('error', () => { frame.replaceChildren(element('span', 'image-missing', 'Photo coming soon')); }, {once:true});
     frame.append(img);
     const info = element('div', 'info');
